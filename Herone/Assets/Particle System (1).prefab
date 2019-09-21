@@ -4863,8 +4863,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab85cdcf815e1c640b1d38f19196bf84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dono: {fileID: 0}
   damage: 10
   activeDamage: 0
   list: []
-  temp: 0
-  cd: 0.5
+  cowndown: 1

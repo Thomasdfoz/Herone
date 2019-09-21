@@ -22,6 +22,8 @@ public abstract class CharacterStats : MonoBehaviour
     [Header("Outros")]
     public GameObject projectile;
     public bool die = false;
+    public bool activeTemp;
+    public float temp;
 
 
     protected NavMeshAgent navMeshAgent;
@@ -35,8 +37,25 @@ public abstract class CharacterStats : MonoBehaviour
         navMeshAgent.speed = moveSpeed / 100;
     }
 
+    private void FixedUpdate()
+    {
+        if (activeTemp)
+            temp += Time.deltaTime;
+    }
+
+
     // Damage the character
-    public abstract void TakeDamage(GameObject attacker, float damage, InfAtk inf, TypeDamage typeDamage);
+    public abstract void TakeDamage(GameObject attacker, float damage, InfAtk inf, TypeDamage typeDamage);    
+    public void BurningDamage(GameObject attacker, float damage, TypeDamage typeDamage, float cowndown)
+    {
+        activeTemp = true;
+        if (temp >= cowndown)
+        {
+            TakeDamage(attacker, damage, InfAtk.normal, typeDamage);
+            temp = 0;
+        }
+
+    }
 
     public virtual void Die(GameObject killer)
     {

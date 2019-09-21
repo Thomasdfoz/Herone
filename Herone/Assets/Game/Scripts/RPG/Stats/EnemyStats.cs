@@ -5,7 +5,8 @@ using UnityEngine;
 /* Keeps track of enemy stats, loosing health and dying. */
 
 public class EnemyStats : CharacterStats {
-    public int experiencie;
+    public int experiencie; 
+   
     public override void Die(GameObject killer)
 	{
 		base.Die(killer);
@@ -17,6 +18,7 @@ public class EnemyStats : CharacterStats {
 	}
     public override void TakeDamage(GameObject attacker, float damage, InfAtk inf, TypeDamage typeDamage)
     {
+       
         int realDamage = 0;
         if (!die)
         {
@@ -61,6 +63,16 @@ public class EnemyStats : CharacterStats {
                 Die(attacker);
             }
         }
-    }
 
+    }
+   /*public void BurningDamage(GameObject attacker, float damage, TypeDamage typeDamage, float cowndown)
+    {
+        activeTemp = true;
+        if (temp >= cowndown)
+        {
+            TakeDamage(attacker, damage, InfAtk.normal, typeDamage);
+            temp = 0;
+        }
+
+    }*/
 }

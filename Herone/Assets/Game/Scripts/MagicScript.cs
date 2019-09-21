@@ -10,69 +10,67 @@ public class MagicScript : MonoBehaviour
     public float damage;
     public bool activeDamage;
     public List<GameObject> list;
-    public float temp;
-    public float cd;
+    public float cowndown;
     // Start is called before the first frame update
     void Start()
     {
         particle = GetComponent<ParticleSystem>();
         list.Clear();
-    }    
+    }
 
     // Update is called once per frame
-    void Update()
-    {       
-        temp += Time.deltaTime;
-
+    void LateUpdate()
+    { 
         if (particle.isStopped)
         {
             Destroy(gameObject);
-        }
-        if (temp >= cd)
-        {
-            if (list.Count > 0)
-            {
-                MagicDamage();
-            }
-            temp = 0;
-        }
+        }        
 
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Human")
+        if (other.GetComponent<CharacterStats>())
         {
-            if (!list.Contains(other.gameObject))
+            if (other.GetComponent<CharacterStats>().race != dono.GetComponent<CharacterStats>().race)
             {
-                list.Add(other.gameObject);
+                other.GetComponent<CharacterStats>().BurningDamage(dono, damage, TypeDamage.magic, cowndown);
             }
+        }
+       
 
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.GetComponent<CharacterStats>())
+        {
+            if (other.GetComponent<CharacterStats>().race != dono.GetComponent<CharacterStats>().race)
+            {
+                other.GetComponent<CharacterStats>().BurningDamage(dono, damage, TypeDamage.magic, cowndown);
+            }
         }
 
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Human")
+        if (other.GetComponent<CharacterStats>())
         {
-            if (list.Contains(other.gameObject))
+
+            if (other.GetComponent<CharacterStats>().race != dono.GetComponent<CharacterStats>().race)
             {
-                list.Remove(other.gameObject);
+                other.GetComponent<EnemyStats>().activeTemp = false;
+                other.GetComponent<EnemyStats>().temp = 0;
             }
         }
 
     }
-    void MagicDamage()
+    void MagicDamage(GameObject enemy)
     {
-        foreach (GameObject enemy in list)
+        float temp = 0;
+        temp += Time.deltaTime;
+        Debug.Log(temp);
+        if (temp >= cowndown)
         {
-            if (enemy == null)
-            {
-                list.Remove(enemy);
-            }
-            else
-            {
-                enemy.GetComponent<EnemyStats>().TakeDamage(dono, damage, InfAtk.normal, TypeDamage.magic);
-            }
+            enemy.GetComponent<EnemyStats>().TakeDamage(dono, damage, InfAtk.normal, TypeDamage.magic);
         }
     }
 }
