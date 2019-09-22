@@ -63,13 +63,14 @@ public class EnemyController : MonoBehaviour
                     FaceTarget();   // Make sure to face towards the target                    
                 }
             }
-            else
-            {
-                fighting = false;
-                target = null;
-                agent.SetDestination(transform.position);
-            }
 
+
+        }
+        else
+        {
+            fighting = false;
+            target = null;
+            agent.SetDestination(transform.position);
         }
 
     }
@@ -80,16 +81,15 @@ public class EnemyController : MonoBehaviour
 
         foreach (Collider col in colliders)
         {
-            if (col.tag == "Player")
+            if (col.GetComponent<CharacterStats>())
             {
-                fighting = true;
-                target = col.transform;
-                return;
-            }
-            else
-            {
-                fighting = false;
-            }
+                if (GetComponent<CharacterStats>().race != col.GetComponent<CharacterStats>().race)
+                {
+                    fighting = true;
+                    target = col.transform;
+                    return;
+                }
+            }            
         }
     }
     // Rotate to face the target

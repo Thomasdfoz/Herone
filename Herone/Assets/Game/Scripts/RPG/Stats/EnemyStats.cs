@@ -10,9 +10,11 @@ public class EnemyStats : CharacterStats {
     public override void Die(GameObject killer)
 	{
 		base.Die(killer);
-        killer.GetComponent<PlayerStats>().CurrentExperience += experiencie;
-        CombatTextManager.Instance.Exp(killer.transform, experiencie);
-
+        if (killer.GetComponent<PlayerStats>())
+        {
+            killer.GetComponent<PlayerStats>().CurrentExperience += experiencie;
+            CombatTextManager.Instance.Exp(killer.transform, experiencie);
+        }
 		// Add ragdoll effect / death animation
 		Destroy(gameObject);
 	}
@@ -65,14 +67,5 @@ public class EnemyStats : CharacterStats {
         }
 
     }
-   /*public void BurningDamage(GameObject attacker, float damage, TypeDamage typeDamage, float cowndown)
-    {
-        activeTemp = true;
-        if (temp >= cowndown)
-        {
-            TakeDamage(attacker, damage, InfAtk.normal, typeDamage);
-            temp = 0;
-        }
-
-    }*/
+   
 }

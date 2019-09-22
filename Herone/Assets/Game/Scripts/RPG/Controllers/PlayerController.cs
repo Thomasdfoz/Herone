@@ -1,29 +1,46 @@
 using UnityEngine.EventSystems;
 using UnityEngine;
+using UnityEngine.UI;
 
 /* Controls the player. Here we choose our "focus" and where to move. */
 
 [RequireComponent(typeof(PlayerMotor))]
 public class PlayerController : MonoBehaviour
 {
+    //constantes
+    const float Radius = 25;
+
+    //
     public Interactable focus;  // Our current focus: Item, Enemy etc.
     [SerializeField]
     LayerMask movementMask;  // Filter out everything not walkable
 
-    Camera cam;         // Reference to our camera
-    PlayerMotor motor;  // Reference to our motor
+    //
+    [Space]
+    public GameObject magic;
 
     //effect of selected
+    [Space]
     public GameObject selectedEffect;
-    GameObject effects; // para poder destroir o objeto sem precisar dar um find.
     public GameObject directionEffect;
 
+    [Space]
+    [Header("Bottons")]
+    public Button btnQ;
+    public Button btnW;
+    public Button btnE;
+    public Button btnR;
+
+    //
     CharacterCombat combat;
     PlayerStats playerStats;
-    public Collider[] colliders;
-    public GameObject magic;
+    Collider[] colliders;
     bool mag;
     GameObject temp;
+    Camera cam;         // Reference to our camera
+    PlayerMotor motor;  // Reference to our motor
+    GameObject effects; // para poder destroir o objeto sem precisar dar um find.
+
 
 
     // Get references
@@ -58,6 +75,7 @@ public class PlayerController : MonoBehaviour
     {
 
         // If we press left mouse
+
         if (Input.GetMouseButtonDown(0))
         {
             // We create a ray
@@ -94,10 +112,10 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            float menorDistance = 15;
-            colliders = Physics.OverlapSphere(transform.position, 15);
+            float menorDistance = Radius;
+            colliders = Physics.OverlapSphere(transform.position, Radius, 1);
 
             foreach (Collider col in colliders)
             {
@@ -122,19 +140,10 @@ public class PlayerController : MonoBehaviour
             }
 
         }
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
 
-            mag = !mag;
-            if (mag)
-            {
-                temp = Instantiate(magic, transform);
-                temp.GetComponent<MagicScript>().dono = this.gameObject;
-            }
-            else
-            {
-                Destroy(temp);
-            }
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            btnQ.onClick.Invoke();
 
         }
     }
@@ -201,4 +210,20 @@ public class PlayerController : MonoBehaviour
     {
         Destroy(go);
     }
+    public void BtnQ()
+    {
+
+        mag = !mag;
+        if (mag)
+        {
+            temp = Instantiate(magic, transform);
+            temp.GetComponent<MagicScript>().dono = this.gameObject;
+        }
+        else
+        {
+            Destroy(temp);
+        }
+
+    }
+
 }

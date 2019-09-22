@@ -7,14 +7,12 @@ public class MagicScript : MonoBehaviour
 {
     public GameObject dono;
     ParticleSystem particle;
-    public float damage;
-    public List<GameObject> list;
+    public float damage;    
     public float cowndown;
     // Start is called before the first frame update
     void Start()
     {
-        particle = GetComponent<ParticleSystem>();
-        list.Clear();
+        particle = GetComponent<ParticleSystem>();        
     }
 
     // Update is called once per frame
