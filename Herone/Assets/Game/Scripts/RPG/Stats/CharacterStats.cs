@@ -9,7 +9,7 @@ public abstract class CharacterStats : MonoBehaviour
     public Race race;
     // Health   
     [Header("Atributos")]
-    public Stats health;
+    public PlayerConnection health;
     public Stat damage;
     public Stat armor;
     public float moveSpeed;

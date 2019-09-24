@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class Character : MonoBehaviour
 {
     [SerializeField]
-    private Stats health;
+    private PlayerConnection health;
 
     [Header("Arma")]
 

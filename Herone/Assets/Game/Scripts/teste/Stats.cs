@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 
 [Serializable]
-public class Stats
+public class PlayerConnection
 {        
     [SerializeField]
     private BarScript bar;
