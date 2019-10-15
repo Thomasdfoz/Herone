@@ -34,8 +34,8 @@ public class PlayerController : MonoBehaviour
     //
     CharacterCombat combat;
     PlayerStats playerStats;
-    Collider[] colliders;
-    bool mag;
+    public Collider[] colliders;
+    public bool mag;
     GameObject temp;
     Camera cam;         // Reference to our camera
     PlayerMotor motor;  // Reference to our motor
@@ -73,7 +73,15 @@ public class PlayerController : MonoBehaviour
     }
     private void Inputs()
     {
-
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            playerStats.currentExperience += 100;
+        }
+        if (Input.GetKeyDown(KeyCode.X))
+        {           
+            playerStats.currentExperience -= 100;
+            playerStats.Die(gameObject);
+        }
         // If we press left mouse
 
         if (Input.GetMouseButtonDown(0))
@@ -112,7 +120,7 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.A))
         {
             float menorDistance = Radius;
             colliders = Physics.OverlapSphere(transform.position, Radius, 1);

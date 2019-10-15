@@ -59,7 +59,7 @@ public class PlayerMotor : MonoBehaviour
         agent.updateRotation = false;
         target = newTarget.interactionTransform;
 
-    }
+    }   
 
     // Stop following a target
     public void StopFollowingTarget()

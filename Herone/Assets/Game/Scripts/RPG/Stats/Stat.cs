@@ -13,13 +13,16 @@ public class Stat {
 	// List of modifiers that change the baseValue
 	private List<int> modifiers = new List<int>();
 
-	// Get the final value after applying modifiers
-	public int GetValue ()
+    public int SetBaseValue { set => baseValue = value; }
+
+    // Get the final value after applying modifiers
+    public int GetValue ()
 	{
 		int finalValue = baseValue;
 		modifiers.ForEach(x => finalValue += x);
 		return finalValue;
 	}
+   
 
 	// Add new modifier
 	public void AddModifier (int modifier)

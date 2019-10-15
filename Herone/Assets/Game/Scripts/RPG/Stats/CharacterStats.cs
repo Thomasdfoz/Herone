@@ -12,7 +12,7 @@ public abstract class CharacterStats : MonoBehaviour
     public PlayerConnection health;
     public Stat damage;
     public Stat armor;
-    public float moveSpeed;
+    public Stat moveSpeed;
     [Space]
     public float rangeAttack;
     public bool ranged;
@@ -34,16 +34,21 @@ public abstract class CharacterStats : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         health.Initialize();
         health.CurrentVal = health.MaxVal;
-        navMeshAgent.speed = moveSpeed / 100;
+        moveSpeed.SetBaseValue = 250;
+        UpdateMoveSpeed();
+
     }
 
     private void FixedUpdate()
     {
         if (activeTemp)
-            temp += Time.deltaTime;
+            temp += Time.deltaTime;        
     }
-
-
+    public void UpdateMoveSpeed()
+    {
+        navMeshAgent.speed = moveSpeed.GetValue() / 100;
+    }
+    
     // Damage the character
     public abstract void TakeDamage(GameObject attacker, float damage, InfAtk inf, TypeDamage typeDamage);    
     public void BurningDamage(GameObject attacker, float damage, TypeDamage typeDamage, float cowndown)

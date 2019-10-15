@@ -10,9 +10,9 @@ public class PlayerStats : CharacterStats
 {
     [Space]
     [Header("LEVEL", order = 1)]
-    public int level;
-    public int CurrentExperience;
-    public int expNextLevel;
+    public double level;
+    public double currentExperience;
+    public double expNextLevel;
     public Text danoText;
     public Text currentExpText;
     public Text expNextLevelText;
@@ -26,6 +26,7 @@ public class PlayerStats : CharacterStats
     }
     private void LateUpdate()
     {
+
         if (!ranged)
         {
             rangeAttack = 1.6f;
@@ -33,7 +34,7 @@ public class PlayerStats : CharacterStats
 
         UpLevel();
         danoText.text = damage.GetValue().ToString();
-        currentExpText.text = CurrentExperience.ToString();
+        currentExpText.text = currentExperience.ToString();
         expNextLevelText.text = expNextLevel.ToString();
         levelText.text = "Level " + level.ToString();
     }
@@ -59,8 +60,15 @@ public class PlayerStats : CharacterStats
 
     public override void Die(GameObject killer)
     {
-        base.Die(killer);
-        PlayerManager.instance.KillPlayer();
+        // base.Die(killer);
+        // PlayerManager.instance.KillPlayer();
+        health.CurrentVal = health.MaxVal;
+        Debug.Log(currentExperience + " " + ExpNextLevel(level - 1));
+        while (currentExperience < ExpNextLevel(level - 1) && level >= 2)
+        {
+            level--;
+        }     
+               
     }
     public override void TakeDamage(GameObject attacker, float damage, InfAtk inf, TypeDamage typeDamage)
     {
@@ -110,15 +118,25 @@ public class PlayerStats : CharacterStats
     }
     private void UpLevel()
     {
-
-        if (CurrentExperience >= expNextLevel)
+        expNextLevel = Mathf.Round((float)ExpNextLevel(level));
+        if (currentExperience >= expNextLevel)
         {
             level++;
-            expNextLevel += expNextLevel;
             health.MaxVal += 100;
-            moveSpeed += 100;
+            moveSpeed.AddModifier(1);
             damage.AddModifier(50);
             health.CurrentVal = health.MaxVal;
+            UpdateMoveSpeed();
+            expNextLevel = Mathf.Round((float)ExpNextLevel(level));
         }
+
     }
+    private double ExpNextLevel(double lvl)
+    {
+        if (lvl <= 1)
+            return 100;       
+        else        
+            return (3 * (10 * lvl * lvl)) + ExpNextLevel(lvl - 1);        
+    }
+
 }

@@ -12,7 +12,7 @@ public class EnemyStats : CharacterStats {
 		base.Die(killer);
         if (killer.GetComponent<PlayerStats>())
         {
-            killer.GetComponent<PlayerStats>().CurrentExperience += experiencie;
+            killer.GetComponent<PlayerStats>().currentExperience += experiencie;
             CombatTextManager.Instance.Exp(killer.transform, experiencie);
         }
 		// Add ragdoll effect / death animation
